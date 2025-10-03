@@ -3,351 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free-Toolkit | Professional Online Tools</title>
-    <meta name="description" content="Free professional online tools: QR generator, PDF tools, image editor, URL shortener and more. No registration required.">
+    <title>Free-Toolkit | Premium Online Tools Suite</title>
+    <meta name="description" content="Free professional online tools suite. QR generator, PDF tools, image editor, URL shortener and more. No registration, unlimited usage.">
+    
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #7c3aed;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --success: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 80px 20px 60px;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 16px;
-            font-weight: 800;
-            background: linear-gradient(45deg, #fff, #e0e7ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header p {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        /* Tools Grid */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .tool-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .tool-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            font-size: 2rem;
-            color: white;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        .tool-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-            font-weight: 700;
-        }
-
-        .tool-card p {
-            color: var(--gray);
-            margin-bottom: 25px;
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 14px 32px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn i {
-            font-size: 1.1rem;
-        }
-
-        /* Features */
-        .features {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 70px 50px;
-            margin: 80px 0;
-            text-align: center;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .features h2 {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            font-weight: 700;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-        }
-
-        .feature {
-            padding: 0 20px;
-        }
-
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 1.8rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .feature h3 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .feature p {
-            opacity: 0.9;
-            font-size: 1rem;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 50px 20px;
-            color: white;
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-
-        .footer p {
-            margin-bottom: 10px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 { font-size: 2.5rem; }
-            .header p { font-size: 1.1rem; }
-            .tools-grid { grid-template-columns: 1fr; gap: 20px; }
-            .features { padding: 50px 30px; margin: 60px 0; }
-            .features h2 { font-size: 2rem; }
-            .tool-card { padding: 30px 20px; }
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 0 15px; }
-            .header { padding: 60px 20px 40px; }
-            .header h1 { font-size: 2rem; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1><i class="fas fa-tools"></i> Free-Toolkit</h1>
-            <p>Professional-grade online tools. Free forever, no registration required.</p>
-        </header>
-
-        <!-- Main Tools Grid -->
-        <div class="tools-grid">
-            <!-- QR Generator -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-qrcode"></i>
-                </div>
-                <h3>QR Code Generator</h3>
-                <p>Create professional QR codes for websites, contacts, WiFi, and more. Customizable colors and styles.</p>
-                <a href="https://free-toolkit.github.io/qr-generator" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
+        <!-- Hero Section -->
+        <section class="hero fade-in">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                <span>Trusted by thousands worldwide</span>
             </div>
-
-            <!-- PDF Tools -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
+            <h1>Supercharge Your Workflow</h1>
+            <p class="hero-subtitle">Premium online tools that work like magic. Fast, secure, and completely free forever.</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">15K+</div>
+                    <div class="stat-label">Tools Used Daily</div>
                 </div>
-                <h3>PDF Tools</h3>
-                <p>Compress, merge, split, and convert PDF files. Maintain quality while reducing file size.</p>
-                <a href="https://free-toolkit.github.io/pdf-tools" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
-
-            <!-- Image Editor -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-image"></i>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
                 </div>
-                <h3>Image Editor</h3>
-                <p>Resize, crop, optimize, and convert images. Support for all major formats including WebP.</p>
-                <a href="https://free-toolkit.github.io/image-editor" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
-
-            <!-- URL Shortener -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-link"></i>
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Registration</div>
                 </div>
-                <h3>URL Shortener</h3>
-                <p>Shorten long URLs and track click analytics. Create custom branded short links.</p>
-                <a href="https://free-toolkit.github.io/url-shortener" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
             </div>
+        </section>
 
-            <!-- Password Generator -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-lock"></i>
+        <!-- Tools Section -->
+        <section class="tools-section">
+            <h2 class="section-title">Professional Tools Suite</h2>
+            
+            <div class="tools-grid">
+                <!-- QR Generator -->
+                <div class="tool-card fade-in">
+                    <div class="tool-icon-wrapper">
+                        <div class="tool-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="tool-icon-bg"></div>
+                    </div>
+                    <h3>Smart QR Generator</h3>
+                    <p class="tool-description">Create stunning QR codes with custom colors, logos, and frames. Perfect for marketing and business cards.</p>
+                    <a href="https://free-toolkit.github.io/qr-generator" class="btn">
+                        <i class="fas fa-bolt"></i> Generate Now
+                    </a>
                 </div>
-                <h3>Password Generator</h3>
-                <p>Generate secure, strong passwords with customizable length and character types.</p>
-                <a href="https://free-toolkit.github.io/password-generator" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
 
-            <!-- Unit Converter -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-calculator"></i>
+                <!-- PDF Tools -->
+                <div class="tool-card fade-in">
+                    <div class="tool-icon-wrapper">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="tool-icon-bg"></div>
+                    </div>
+                    <h3>PDF Master Suite</h3>
+                    <p class="tool-description">Compress, merge, split, and convert PDF files while preserving quality. Batch processing supported.</p>
+                    <a href="https://free-toolkit.github.io/pdf-tools" class="btn">
+                        <i class="fas fa-bolt"></i> Process PDF
+                    </a>
                 </div>
-                <h3>Unit Converter</h3>
-                <p>Convert between length, weight, temperature, currency, and more. Real-time calculations.</p>
-                <a href="https://free-toolkit.github.io/unit-converter" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
+
+                <!-- Image Editor -->
+                <div class="tool-card fade-in">
+                    <div class="tool-icon-wrapper">
+                        <div class="tool-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="tool-icon-bg"></div>
+                    </div>
+                    <h3>AI Image Editor</h3>
+                    <p class="tool-description">Advanced image editing with AI enhancements. Resize, filter, convert formats, and optimize for web.</p>
+                    <a href="https://free-toolkit.github.io/image-editor" class="btn">
+                        <i class="fas fa-bolt"></i> Edit Image
+                    </a>
+                </div>
+
+                <!-- URL Shortener -->
+                <div class="tool-card fade-in">
+                    <div class="tool-icon-wrapper">
+                        <div class="tool-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="tool-icon-bg"></div>
+                    </div>
+                    <h3>URL Shortener Pro</h3>
+                    <p class="tool-description">Shorten links with custom domains, QR codes, and detailed analytics. Perfect for social media and marketing.</p>
+                    <a href="https://free-toolkit.github.io/url-shortener" class="btn">
+                        <i class="fas fa-bolt"></i> Shorten URL
+                    </a>
+                </div>
+
+                <!-- Password Generator -->
+                <div class="tool-card fade-in">
+                    <div class="tool-icon-wrapper">
+                        <div class="tool-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="tool-icon-bg"></div>
+                    </div>
+                    <h3>Security Vault</h3>
+                    <p class="tool-description">Generate ultra-secure passwords, check strength, and create memorable passphrases. Enterprise-grade security.</p>
+                    <a href="https://free-toolkit.github.io/password-generator" class="btn">
+                        <i class="fas fa-bolt"></i> Create Password
+                    </a>
+                </div>
+
+                <!-- Unit Converter -->
+                <div class="tool-card fade-in">
+                    <div class="tool-icon-wrapper">
+                        <div class="tool-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="tool-icon-bg"></div>
+                    </div>
+                    <h3>Universal Converter</h3>
+                    <p class="tool-description">Convert between 200+ units including currency, length, weight, temperature, and digital storage.</p>
+                    <a href="https://free-toolkit.github.io/unit-converter" class="btn">
+                        <i class="fas fa-bolt"></i> Convert Units
+                    </a>
+                </div>
             </div>
-        </div>
+        </section>
 
         <!-- Features Section -->
         <section class="features">
-            <h2>Why Professionals Choose Free-Toolkit</h2>
+            <h2>Why Free-Toolkit Stands Out</h2>
             <div class="features-grid">
-                <div class="feature">
+                <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-rocket"></i>
                     </div>
-                    <h3>Lightning Fast</h3>
-                    <p>Optimized tools that work instantly in your browser</p>
+                    <h3>Blazing Fast</h3>
+                    <p>Optimized algorithms deliver instant results without compromising quality</p>
                 </div>
-                <div class="feature">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>100% Secure</h3>
-                    <p>Your files never leave your device - complete privacy</p>
+                    <h3>Military Security</h3>
+                    <p>All processing happens in your browser. Your data never touches our servers</p>
                 </div>
-                <div class="feature">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-infinity"></i>
                     </div>
-                    <h3>No Limits</h3>
-                    <p>Unlimited usage, no watermarks, no registration</p>
+                    <h3>Zero Limits</h3>
+                    <p>Unlimited usage, no watermarks, no hidden fees. Truly free forever</p>
                 </div>
-                <div class="feature">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Mobile Optimized</h3>
-                    <p>Perfect experience on all devices and screen sizes</p>
+                    <h3>Universal Access</h3>
+                    <p>Flawless experience on desktop, tablet, and mobile devices</p>
                 </div>
             </div>
         </section>
@@ -355,8 +173,17 @@
         <!-- Footer -->
         <footer class="footer">
             <p>&copy; 2024 Free-Toolkit. All rights reserved.</p>
-            <p>Professional online tools for everyone</p>
+            <p>Empowering creativity and productivity worldwide</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
+                <a href="#">Support</a>
+            </div>
         </footer>
     </div>
+
+    <!-- JavaScript -->
+    <script src="/assets/js/main.js"></script>
 </body>
 </html>
