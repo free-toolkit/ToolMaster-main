@@ -1,262 +1,547 @@
-// PDF Tools JavaScript
-class PDFTools {
-    constructor() {
-        this.init();
+/* ===== PDF TOOLS SPECIFIC STYLES ===== */
+
+/* Navigation */
+.pdf-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--light);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-fast);
+    padding: 10px 16px;
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-back:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-4px);
+}
+
+.nav-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+}
+
+/* PDF Hero */
+.pdf-hero {
+    text-align: center;
+    padding: 60px 0 80px;
+}
+
+.pdf-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 0%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pdf-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 32px;
+    margin-top: 60px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat {
+    padding: 24px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--secondary);
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    color: #cbd5e1;
+}
+
+/* PDF Tools Grid */
+.pdf-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 32px;
+    margin-bottom: 80px;
+}
+
+.pdf-tool-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(40px);
+    border-radius: var(--border-radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+}
+
+.pdf-tool-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.tool-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.tool-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.tool-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0;
+}
+
+.tool-badge {
+    background: var(--gradient-success);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    position: absolute;
+    top: -8px;
+    right: 0;
+}
+
+.tool-description {
+    color: var(--gray);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+/* Tool Features */
+.tool-features {
+    margin-bottom: 24px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: var(--gray);
+}
+
+.feature i {
+    color: var(--success);
+    font-size: 0.9rem;
+}
+
+/* Upload Area */
+.upload-area {
+    border: 2px dashed var(--gray-light);
+    border-radius: var(--border-radius);
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 24px;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.upload-area:hover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.upload-area.dragover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+    transform: scale(1.02);
+}
+
+.upload-content i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.upload-content h4 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: var(--dark);
+}
+
+.upload-content p {
+    color: var(--gray);
+    margin-bottom: 12px;
+}
+
+.file-types {
+    font-size: 0.8rem;
+    color: var(--gray-light);
+}
+
+/* Converter Options */
+.converter-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.option-group label {
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 0.9rem;
+}
+
+.option-group select,
+.option-group input {
+    padding: 12px 16px;
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition-fast);
+    background: white;
+}
+
+.option-group select:focus,
+.option-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Files List */
+.files-list {
+    margin-bottom: 24px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--border-radius);
+    margin-bottom: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.file-item i {
+    color: var(--primary);
+}
+
+.file-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.file-size {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.file-remove {
+    color: var(--error);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: var(--transition-fast);
+}
+
+.file-remove:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* Split Options */
+.split-options {
+    margin-bottom: 24px;
+}
+
+/* Tool Actions */
+.tool-actions {
+    text-align: center;
+}
+
+.btn-success {
+    background: var(--gradient-success);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(6, 214, 160, 0.4);
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
     }
-
-    init() {
-        console.log('📄 PDF Tools initialized');
-        this.setupFileUploads();
-        this.setupDragAndDrop();
-        this.loadStats();
-    }
-
-    setupFileUploads() {
-        // Setup file upload handlers for all tools
-        const uploadAreas = document.querySelectorAll('.upload-area');
-        
-        uploadAreas.forEach(area => {
-            const fileInput = area.querySelector('input[type="file"]');
-            
-            area.addEventListener('click', () => {
-                fileInput.click();
-            });
-
-            fileInput.addEventListener('change', (e) => {
-                this.handleFileSelect(e, area);
-            });
-        });
-    }
-
-    setupDragAndDrop() {
-        const uploadAreas = document.querySelectorAll('.upload-area');
-        
-        uploadAreas.forEach(area => {
-            area.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                area.classList.add('dragover');
-            });
-
-            area.addEventListener('dragleave', () => {
-                area.classList.remove('dragover');
-            });
-
-            area.addEventListener('drop', (e) => {
-                e.preventDefault();
-                area.classList.remove('dragover');
-                
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    this.handleDroppedFiles(files, area);
-                }
-            });
-        });
-    }
-
-    handleFileSelect(event, uploadArea) {
-        const files = event.target.files;
-        if (files.length > 0) {
-            this.processSelectedFiles(files, uploadArea);
-        }
-    }
-
-    handleDroppedFiles(files, uploadArea) {
-        this.processSelectedFiles(files, uploadArea);
-    }
-
-    processSelectedFiles(files, uploadArea) {
-        const tool = uploadArea.closest('.pdf-tool-card').dataset.tool;
-        
-        Array.from(files).forEach(file => {
-            if (this.validateFile(file, tool)) {
-                this.displayFilePreview(file, tool);
-            } else {
-                this.showError('Invalid file type or size. Please check the requirements.');
-            }
-        });
-    }
-
-    validateFile(file, tool) {
-        const maxSize = 50 * 1024 * 1024; // 50MB
-        const allowedTypes = {
-            'compressor': ['application/pdf'],
-            'merger': ['application/pdf'],
-            'splitter': ['application/pdf'],
-            'converter': ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png']
-        };
-
-        if (file.size > maxSize) {
-            return false;
-        }
-
-        if (!allowedTypes[tool].includes(file.type)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    displayFilePreview(file, tool) {
-        const fileList = document.getElementById(`${tool}FilesList`);
-        
-        if (fileList) {
-            const fileItem = this.createFileItem(file);
-            fileList.appendChild(fileItem);
-        }
-
-        // Update upload area appearance
-        const uploadArea = document.getElementById(`${tool}Upload`);
-        uploadArea.querySelector('.upload-content').innerHTML = `
-            <i class="fas fa-file-pdf"></i>
-            <h4>${file.name}</h4>
-            <p>${this.formatFileSize(file.size)}</p>
-        `;
-    }
-
-    createFileItem(file) {
-        const fileItem = document.createElement('div');
-        fileItem.className = 'file-item';
-        fileItem.innerHTML = `
-            <i class="fas fa-file-pdf"></i>
-            <span class="file-name">${file.name}</span>
-            <span class="file-size">${this.formatFileSize(file.size)}</span>
-            <i class="fas fa-times file-remove" onclick="this.parentElement.remove()"></i>
-        `;
-        return fileItem;
-    }
-
-    formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    loadStats() {
-        // Load statistics from localStorage
-        const stats = JSON.parse(localStorage.getItem('pdfToolsStats') || '{"filesProcessed": 0, "sizeSaved": 0}');
-        
-        document.getElementById('filesProcessed').textContent = stats.filesProcessed;
-        document.getElementById('sizeSaved').textContent = (stats.sizeSaved / 1024 / 1024).toFixed(1) + ' MB';
-    }
-
-    updateStats(filesProcessed = 0, sizeSaved = 0) {
-        const stats = JSON.parse(localStorage.getItem('pdfToolsStats') || '{"filesProcessed": 0, "sizeSaved": 0}');
-        
-        stats.filesProcessed += filesProcessed;
-        stats.sizeSaved += sizeSaved;
-        
-        localStorage.setItem('pdfToolsStats', JSON.stringify(stats));
-        this.loadStats();
-    }
-
-    showError(message) {
-        alert('Error: ' + message); // In a real app, use a better notification system
-    }
-
-    showProcessingModal() {
-        document.getElementById('processingModal').classList.add('active');
-        this.simulateProgress();
-    }
-
-    hideProcessingModal() {
-        document.getElementById('processingModal').classList.remove('active');
-    }
-
-    simulateProgress() {
-        const progressFill = document.getElementById('progressFill');
-        let width = 0;
-        
-        const interval = setInterval(() => {
-            if (width >= 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    this.hideProcessingModal();
-                    this.showCPAOffer();
-                }, 500);
-            } else {
-                width += Math.random() * 10;
-                progressFill.style.width = Math.min(width, 100) + '%';
-            }
-        }, 200);
-    }
-
-    showCPAOffer() {
-        // Load CPA offer content
-        const offerContent = document.getElementById('cpaOfferContent');
-        offerContent.innerHTML = `
-            <div class="cpa-offer">
-                <h5>Special Offer: Get Premium Features</h5>
-                <p>Complete this quick survey to unlock your file download and get access to all premium features!</p>
-                <!-- In a real app, you would load your CPA offer here -->
-                <div class="offer-placeholder">
-                    <p>🔒 Your CPA offer content would be displayed here</p>
-                    <p><small>This is where you integrate with OGAds, CPAGrip, etc.</small></p>
-                </div>
-            </div>
-        `;
-        
-        document.getElementById('cpaModal').classList.add('active');
-    }
-
-    hideCPAOffer() {
-        document.getElementById('cpaModal').classList.remove('active');
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
-// Tool-specific functions
-function initCompressor() {
-    const fileInput = document.getElementById('compressorFile');
-    if (!fileInput.files.length) {
-        alert('Please select a PDF file to compress.');
-        return;
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--dark);
+    font-size: 1.5rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--gray);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+    color: var(--dark);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.modal-body {
+    padding: 32px;
+}
+
+/* Processing Animation */
+.processing-animation {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.processing-animation i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.processing-animation p {
+    color: var(--gray);
+    font-size: 1.1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--gray-light);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+/* Premium Offer */
+.premium-offer {
+    text-align: center;
+}
+
+.offer-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-primary);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    margin: 0 auto 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.premium-offer h4 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    color: var(--dark);
+}
+
+.premium-offer p {
+    color: var(--gray);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.premium-features {
+    margin-bottom: 24px;
+}
+
+.loading-offer {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.loading-offer i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.offer-note {
+    font-size: 0.8rem;
+    color: var(--gray-light);
+    margin-top: 16px;
+}
+
+/* PDF Features */
+.pdf-features {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px);
+    border-radius: var(--border-radius-lg);
+    padding: 80px 60px;
+    margin: 80px 0;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pdf-features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    font-weight: 700;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pdf-nav {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
     }
     
-    window.pdfTools.showProcessingModal();
-}
-
-function initMerger() {
-    const fileInput = document.getElementById('mergerFiles');
-    if (!fileInput.files.length) {
-        alert('Please select at least one PDF file to merge.');
-        return;
+    .pdf-tools-grid {
+        grid-template-columns: 1fr;
     }
     
-    window.pdfTools.showProcessingModal();
-}
-
-function initSplitter() {
-    const fileInput = document.getElementById('splitterFile');
-    if (!fileInput.files.length) {
-        alert('Please select a PDF file to split.');
-        return;
+    .converter-options {
+        grid-template-columns: 1fr;
     }
     
-    window.pdfTools.showProcessingModal();
-}
-
-function initConverter() {
-    const fileInput = document.getElementById('converterFile');
-    if (!fileInput.files.length) {
-        alert('Please select a file to convert.');
-        return;
+    .pdf-hero h1 {
+        font-size: 2.5rem;
     }
     
-    window.pdfTools.showProcessingModal();
-}
-
-function closeModal() {
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.classList.remove('active');
-    });
-}
-
-function completeOffer() {
-    // Simulate offer completion and file download
-    window.pdfTools.hideCPAOffer();
-    window.pdfTools.updateStats(1, 1024 * 1024); // Add 1MB to saved size
+    .pdf-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
     
-    // Create and trigger download of a sample file
-    const link = document.createElement('a');
-    link.href
+    .stat-number {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .pdf-tool-card {
+        padding: 24px;
+    }
+    
+    .tool-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+    
+    .tool-badge {
+        position: static;
+        align-self: center;
+    }
+    
+    .pdf-features {
+        padding: 40px 24px;
+    }
+}
