@@ -1,138 +1,471 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free-Toolkit | Professional Online Tools</title>
-    <meta name="description" content="Free professional online tools: QR generator, PDF tools, image editor, URL shortener and more. No registration required.">
+/* ===== FREE-TOOLKIT MODERN DESIGN ===== */
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #8b5cf6;
+    --secondary: #06d6a0;
+    --dark: #0f172a;
+    --darker: #020617;
+    --light: #f1f5f9;
+    --gray: #475569;
+    --gray-light: #cbd5e1;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
     
-    <!-- CSS EXTERNO -->
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1><i class="fas fa-tools"></i> Free-Toolkit</h1>
-            <p>Professional-grade online tools. Free forever, no registration required.</p>
-        </header>
+    --border-radius: 16px;
+    --border-radius-lg: 24px;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.18);
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+    
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-light));
+    --gradient-dark: linear-gradient(135deg, var(--dark), var(--darker));
+    --gradient-success: linear-gradient(135deg, var(--success), var(--secondary));
+    --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6366f1 100%);
+}
 
-        <!-- Main Tools Grid -->
-        <div class="tools-grid">
-            <!-- QR Generator -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-qrcode"></i>
-                </div>
-                <h3>QR Code Generator</h3>
-                <p>Create professional QR codes for websites, contacts, WiFi, and more. Customizable colors and styles.</p>
-                <a href="https://free-toolkit.github.io/qr-generator" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-            <!-- PDF Tools -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <h3>PDF Tools</h3>
-                <p>Compress, merge, split, and convert PDF files. Maintain quality while reducing file size.</p>
-                <a href="https://free-toolkit.github.io/pdf-tools" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
 
-            <!-- Image Editor -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-image"></i>
-                </div>
-                <h3>Image Editor</h3>
-                <p>Resize, crop, optimize, and convert images. Support for all major formats including WebP.</p>
-                <a href="https://free-toolkit.github.io/image-editor" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
+body {
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--gradient-hero);
+    min-height: 100vh;
+    color: var(--light);
+    line-height: 1.7;
+    overflow-x: hidden;
+    font-weight: 400;
+}
 
-            <!-- URL Shortener -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-link"></i>
-                </div>
-                <h3>URL Shortener</h3>
-                <p>Shorten long URLs and track click analytics. Create custom branded short links.</p>
-                <a href="https://free-toolkit.github.io/url-shortener" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
+/* ===== CONTAINER ===== */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
 
-            <!-- Password Generator -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <h3>Password Generator</h3>
-                <p>Generate secure, strong passwords with customizable length and character types.</p>
-                <a href="https://free-toolkit.github.io/password-generator" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
+/* ===== HEADER & HERO ===== */
+.hero {
+    text-align: center;
+    padding: 100px 20px 80px;
+    position: relative;
+    overflow: hidden;
+}
 
-            <!-- Unit Converter -->
-            <div class="tool-card">
-                <div class="tool-icon">
-                    <i class="fas fa-calculator"></i>
-                </div>
-                <h3>Unit Converter</h3>
-                <p>Convert between length, weight, temperature, currency, and more. Real-time calculations.</p>
-                <a href="https://free-toolkit.github.io/unit-converter" class="btn">
-                    <i class="fas fa-rocket"></i> Use Tool
-                </a>
-            </div>
-        </div>
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
 
-        <!-- Features Section -->
-        <section class="features">
-            <h2>Why Professionals Choose Free-Toolkit</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Lightning Fast</h3>
-                    <p>Optimized tools that work instantly in your browser</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>100% Secure</h3>
-                    <p>Your files never leave your device - complete privacy</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-infinity"></i>
-                    </div>
-                    <h3>No Limits</h3>
-                    <p>Unlimited usage, no watermarks, no registration</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Optimized</h3>
-                    <p>Perfect experience on all devices and screen sizes</p>
-                </div>
-            </div>
-        </section>
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: float 3s ease-in-out infinite;
+}
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2024 Free-Toolkit. All rights reserved.</p>
-            <p>Professional online tools for everyone</p>
-        </footer>
-    </div>
-</body>
-</html>
+.hero-badge i {
+    color: var(--secondary);
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 0%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+    color: #e2e8f0;
+}
+
+/* ===== TOOLS GRID ===== */
+.tools-section {
+    padding: 40px 0 80px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 60px;
+    color: white;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 32px;
+    margin-bottom: 60px;
+}
+
+.tool-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(40px);
+    border-radius: var(--border-radius-lg);
+    padding: 48px 36px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: var(--transition-slow);
+}
+
+.tool-card:hover::before {
+    left: 100%;
+}
+
+.tool-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.tool-icon-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 32px;
+}
+
+.tool-icon {
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-normal);
+    position: relative;
+    z-index: 2;
+}
+
+.tool-icon-bg {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 24px;
+    opacity: 0.4;
+    filter: blur(12px);
+    transition: var(--transition-normal);
+}
+
+.tool-card:hover .tool-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.tool-card:hover .tool-icon-bg {
+    transform: scale(1.1);
+    opacity: 0.6;
+}
+
+.tool-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    color: var(--dark);
+    font-weight: 700;
+}
+
+.tool-description {
+    color: var(--gray);
+    margin-bottom: 32px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--gradient-primary);
+    color: white;
+    padding: 16px 36px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: var(--transition-slow);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn i {
+    font-size: 1.1rem;
+    transition: var(--transition-fast);
+}
+
+.btn:hover i {
+    transform: translateX(4px);
+}
+
+/* ===== FEATURES SECTION ===== */
+.features {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px);
+    border-radius: var(--border-radius-lg);
+    padding: 80px 60px;
+    margin: 80px 0;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+}
+
+.features::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary), transparent, var(--secondary));
+    border-radius: var(--border-radius-lg);
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.features h2 {
+    font-size: 3rem;
+    margin-bottom: 60px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 48px;
+}
+
+.feature-card {
+    padding: 0 16px;
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: var(--transition-normal);
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1) translateY(-5px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+.feature-card p {
+    opacity: 0.9;
+    font-size: 1rem;
+    color: #e2e8f0;
+}
+
+/* ===== STATS SECTION ===== */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+    margin: 60px 0;
+    text-align: center;
+}
+
+.stat-item {
+    padding: 32px 20px;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--secondary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    color: #cbd5e1;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    opacity: 0.8;
+    font-size: 0.95rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 80px;
+}
+
+.footer p {
+    margin-bottom: 12px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 24px;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: var(--shadow-md); }
+    50% { box-shadow: var(--shadow-lg), var(--shadow-glow); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .hero h1 { font-size: 3.2rem; }
+    .tools-grid { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .hero { padding: 80px 20px 60px; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero-subtitle { font-size: 1.2rem; }
+    .tools-grid { grid-template-columns: 1fr; gap: 24px; }
+    .features { padding: 60px 30px; margin: 60px 0; }
+    .features h2 { font-size: 2.2rem; }
+    .section-title { font-size: 2rem; }
+    .tool-card { padding: 36px 24px; }
+}
+
+@media (max-width: 480px) {
+    .hero h1 { font-size: 2rem; }
+    .hero-subtitle { font-size: 1.1rem; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .features { padding: 40px 20px; }
+    .features-grid { gap: 32px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .footer-links { flex-direction: column; gap: 16px; }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-center { text-align: center; }
+.mt-40 { margin-top: 40px; }
+.mb-40 { margin-bottom: 40px; }
+.hidden { display: none; }
+.fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
