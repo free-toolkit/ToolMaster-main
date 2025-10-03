@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free-Toolkit | Your Free Online Tools Hub</title>
-    <meta name="description" content="Free online tools for everyone. Create QR codes, compress PDFs, convert images and more. No registration required.">
+    <title>Free-Toolkit | Professional Online Tools</title>
+    <meta name="description" content="Free professional online tools: QR generator, PDF tools, image editor, URL shortener and more. No registration required.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,220 +13,349 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+        }
+
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
+            color: var(--dark);
             line-height: 1.6;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
+        /* Header */
         .header {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px 60px;
             color: white;
         }
 
         .header h1 {
-            font-size: 3.5em;
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            margin-bottom: 16px;
             font-weight: 800;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header p {
-            font-size: 1.3em;
+            font-size: 1.25rem;
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
+            font-weight: 300;
         }
 
+        /* Tools Grid */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
             margin: 40px 0;
         }
 
         .tool-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
         }
 
         .tool-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
         }
 
         .tool-card h3 {
-            font-size: 1.5em;
+            font-size: 1.5rem;
             margin-bottom: 15px;
-            color: #2c3e50;
+            color: var(--dark);
+            font-weight: 700;
         }
 
         .tool-card p {
-            color: #666;
-            margin-bottom: 20px;
-            min-height: 60px;
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1rem;
         }
 
         .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 12px 30px;
-            border-radius: 8px;
+            padding: 14px 32px;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.4);
         }
 
+        .btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Features */
         .features {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 50px;
-            margin: 60px 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 70px 50px;
+            margin: 80px 0;
             text-align: center;
             color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .features h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            font-weight: 700;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
         }
 
         .feature {
-            padding: 20px;
+            padding: 0 20px;
         }
 
         .feature-icon {
-            font-size: 2.5em;
-            margin-bottom: 15px;
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            backdrop-filter: blur(10px);
         }
 
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .feature p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        /* Footer */
         .footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             color: white;
             opacity: 0.8;
+            font-size: 0.95rem;
         }
 
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .header h1 { font-size: 2.5em; }
-            .tools-grid { grid-template-columns: 1fr; }
-            .features { padding: 30px 20px; }
+            .header h1 { font-size: 2.5rem; }
+            .header p { font-size: 1.1rem; }
+            .tools-grid { grid-template-columns: 1fr; gap: 20px; }
+            .features { padding: 50px 30px; margin: 60px 0; }
+            .features h2 { font-size: 2rem; }
+            .tool-card { padding: 30px 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 15px; }
+            .header { padding: 60px 20px 40px; }
+            .header h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header class="header">
-            <h1>🛠️ Free-Toolkit</h1>
-            <p>Your ultimate collection of free online tools. No registration, no limits.</p>
+            <h1><i class="fas fa-tools"></i> Free-Toolkit</h1>
+            <p>Professional-grade online tools. Free forever, no registration required.</p>
         </header>
 
+        <!-- Main Tools Grid -->
         <div class="tools-grid">
+            <!-- QR Generator -->
             <div class="tool-card">
-                <div class="tool-icon">🎯</div>
+                <div class="tool-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
                 <h3>QR Code Generator</h3>
-                <p>Create custom QR codes for URLs, Wi-Fi, contacts and more. Download in high quality.</p>
-                <a href="/qr-generator.html" class="btn">Use Tool</a>
+                <p>Create professional QR codes for websites, contacts, WiFi, and more. Customizable colors and styles.</p>
+                <a href="https://free-toolkit.github.io/qr-generator" class="btn">
+                    <i class="fas fa-rocket"></i> Use Tool
+                </a>
             </div>
 
+            <!-- PDF Tools -->
             <div class="tool-card">
-                <div class="tool-icon">📄</div>
+                <div class="tool-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
                 <h3>PDF Tools</h3>
-                <p>Compress, merge, and convert PDF files. Reduce file size without losing quality.</p>
-                <a href="/pdf-tools.html" class="btn">Use Tool</a>
+                <p>Compress, merge, split, and convert PDF files. Maintain quality while reducing file size.</p>
+                <a href="https://free-toolkit.github.io/pdf-tools" class="btn">
+                    <i class="fas fa-rocket"></i> Use Tool
+                </a>
             </div>
 
+            <!-- Image Editor -->
             <div class="tool-card">
-                <div class="tool-icon">🎨</div>
+                <div class="tool-icon">
+                    <i class="fas fa-image"></i>
+                </div>
                 <h3>Image Editor</h3>
-                <p>Resize, crop, and optimize images. Convert between different formats easily.</p>
-                <a href="/image-editor.html" class="btn">Use Tool</a>
+                <p>Resize, crop, optimize, and convert images. Support for all major formats including WebP.</p>
+                <a href="https://free-toolkit.github.io/image-editor" class="btn">
+                    <i class="fas fa-rocket"></i> Use Tool
+                </a>
             </div>
 
+            <!-- URL Shortener -->
             <div class="tool-card">
-                <div class="tool-icon">🔗</div>
+                <div class="tool-icon">
+                    <i class="fas fa-link"></i>
+                </div>
                 <h3>URL Shortener</h3>
-                <p>Shorten long links and track clicks. Create custom branded short URLs.</p>
-                <a href="/url-shortener.html" class="btn">Use Tool</a>
+                <p>Shorten long URLs and track click analytics. Create custom branded short links.</p>
+                <a href="https://free-toolkit.github.io/url-shortener" class="btn">
+                    <i class="fas fa-rocket"></i> Use Tool
+                </a>
             </div>
 
+            <!-- Password Generator -->
             <div class="tool-card">
-                <div class="tool-icon">🔒</div>
+                <div class="tool-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
                 <h3>Password Generator</h3>
-                <p>Create strong, secure passwords. Customize length and character types.</p>
-                <a href="/password-generator.html" class="btn">Use Tool</a>
+                <p>Generate secure, strong passwords with customizable length and character types.</p>
+                <a href="https://free-toolkit.github.io/password-generator" class="btn">
+                    <i class="fas fa-rocket"></i> Use Tool
+                </a>
             </div>
 
+            <!-- Unit Converter -->
             <div class="tool-card">
-                <div class="tool-icon">📐</div>
+                <div class="tool-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
                 <h3>Unit Converter</h3>
-                <p>Convert between different units: length, weight, temperature, and more.</p>
-                <a href="/unit-converter.html" class="btn">Use Tool</a>
+                <p>Convert between length, weight, temperature, currency, and more. Real-time calculations.</p>
+                <a href="https://free-toolkit.github.io/unit-converter" class="btn">
+                    <i class="fas fa-rocket"></i> Use Tool
+                </a>
             </div>
         </div>
 
+        <!-- Features Section -->
         <section class="features">
-            <h2>Why Choose Free-Toolkit?</h2>
+            <h2>Why Professionals Choose Free-Toolkit</h2>
             <div class="features-grid">
                 <div class="feature">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Fast & Easy</h3>
-                    <p>Instant results with simple interfaces</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Optimized tools that work instantly in your browser</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">💯</div>
-                    <h3>100% Free</h3>
-                    <p>No hidden costs, no registration required</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>100% Secure</h3>
+                    <p>Your files never leave your device - complete privacy</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Privacy First</h3>
-                    <p>Your data never leaves your browser</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>No Limits</h3>
+                    <p>Unlimited usage, no watermarks, no registration</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">📱</div>
-                    <h3>Mobile Friendly</h3>
-                    <p>Works perfectly on all devices</p>
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Optimized</h3>
+                    <p>Perfect experience on all devices and screen sizes</p>
                 </div>
             </div>
         </section>
 
+        <!-- Footer -->
         <footer class="footer">
-            <p>&copy; 2024 Free-Toolkit. All rights reserved. | Free online tools for everyone</p>
+            <p>&copy; 2024 Free-Toolkit. All rights reserved.</p>
+            <p>Professional online tools for everyone</p>
         </footer>
     </div>
 </body>
