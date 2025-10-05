@@ -66,8 +66,8 @@ class ToolMasterApp {
         contentArea.innerHTML = templates[tab] || '<div>Contenido no disponible</div>';
     }
 
-   // 🎬 CATEGORÍA VIDEO - COMPLETA CON 6 HERRAMIENTAS
-getVideoToolsHTML() {
+     // 🎬 CATEGORÍA VIDEO - COMPLETA CON 6 HERRAMIENTAS
+   getVideoToolsHTML() {
     return `
         <section class="tool-section">
             <h2>🎬 Herramientas de Video Profesionales</h2>
