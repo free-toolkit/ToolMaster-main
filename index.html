@@ -3,60 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolMaster - Herramientas Rápidas</title>
-    <meta name="description" content="Herramientas digitales ultra rápidas: descarga videos, crea QR, procesa texto">
-    
-    <!-- Preload crítico -->
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="app.js" as="script">
-    
-    <!-- CSS crítico inline -->
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --dark-bg: #0f172a;
-            --text-primary: #f8fafc;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            font-family: system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-        }
-        
-        .loading-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), #7c3aed);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-            z-index: 9999;
-        }
-        
-        .main-header {
-            position: sticky;
-            top: 0;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-    </style>
-    
-    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+    <title>ToolMaster - Herramientas Gratis</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Loading bar animada -->
     <div class="loading-bar" id="loadingBar"></div>
     
     <header class="main-header">
@@ -72,12 +22,7 @@
 
     <main class="tool-container">
         <div id="content-area" class="content-area">
-            <!-- Carga diferida de contenido -->
-            <div class="skeleton-loader">
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-            </div>
+            <!-- Las herramientas se cargan aquí -->
         </div>
     </main>
 
@@ -89,17 +34,6 @@
         <div id="output-content" class="output-content"></div>
     </div>
 
-    <!-- Scripts optimizados -->
-    <script>
-        // Carga progresiva - medir performance
-        window.performanceMark = function(name) {
-            'use strict';
-            performance.mark(name);
-        };
-        
-        window.performanceMark('pageStart');
-    </script>
-    
-    <script src="app.js" defer></script>
+    <script src="app.js"></script>
 </body>
 </html>
