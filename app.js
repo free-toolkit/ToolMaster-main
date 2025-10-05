@@ -1,6 +1,7 @@
 class ToolMasterApp {
     constructor() {
         this.currentTab = 'video';
+        this.backend = new MockBackend();
         this.init();
     }
 
@@ -8,10 +9,7 @@ class ToolMasterApp {
         this.showLoadingBar();
         this.loadTab(this.currentTab);
         this.bindEvents();
-        
-        setTimeout(() => {
-            this.hideLoadingBar();
-        }, 500);
+        setTimeout(() => this.hideLoadingBar(), 500);
     }
 
     bindEvents() {
@@ -19,17 +17,18 @@ class ToolMasterApp {
             if (e.target.classList.contains('nav-btn')) {
                 this.handleNavClick(e.target);
             }
-            
             if (e.target.classList.contains('tool-btn')) {
                 this.handleToolClick(e.target);
             }
-            
             if (e.target.id === 'close-output') {
                 this.hideOutput();
             }
+            if (e.target.classList.contains('format-btn')) {
+                this.handleFormatClick(e.target);
+            }
         });
 
-        // Eventos para inputs específicos
+        // Detectar URLs en tiempo real
         document.addEventListener('input', (e) => {
             if (e.target.id === 'video-url') {
                 this.analyzeVideoUrl(e.target.value);
@@ -37,440 +36,410 @@ class ToolMasterApp {
         });
     }
 
-    handleNavClick(button) {
-        const tab = button.dataset.tab;
-        if (this.currentTab === tab) return;
-        
-        this.showLoadingBar();
-        this.currentTab = tab;
-        
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        button.classList.add('active');
-        
-        this.loadTab(tab);
-        
-        setTimeout(() => {
-            this.hideLoadingBar();
-        }, 300);
-    }
-
-    loadTab(tab) {
-        const contentArea = document.getElementById('content-area');
-        
-        switch(tab) {
-            case 'video':
-                contentArea.innerHTML = this.getVideoToolsHTML();
-                break;
-            case 'qr':
-                contentArea.innerHTML = this.getQRToolsHTML();
-                break;
-            case 'text':
-                contentArea.innerHTML = this.getTextToolsHTML();
-                break;
-            case 'images':
-                contentArea.innerHTML = this.getImageToolsHTML();
-                break;
-            case 'urls':
-                contentArea.innerHTML = this.getUrlToolsHTML();
-                break;
-            case 'quick':
-                contentArea.innerHTML = this.getQuickToolsHTML();
-                break;
-        }
-    }
-
-    // 🎬 HERRAMIENTAS DE VIDEO - FUNCIONALES
+    // 🎬 HERRAMIENTAS DE VIDEO - BACKEND SIMULADO PROFESIONAL
     getVideoToolsHTML() {
         return `
             <section class="tool-section">
-                <h2>🎬 Herramientas de Video</h2>
+                <h2>🎬 Herramientas de Video - BACKEND SIMULADO</h2>
                 <div class="tool-grid">
+                    <!-- DESCARGADOR PROFESIONAL -->
                     <div class="tool-card">
-                        <h3>📥 Descargador Multiplataforma</h3>
-                        <p>YouTube, TikTok, Instagram, Twitter, Facebook</p>
+                        <h3>📥 Descargador Profesional</h3>
+                        <p class="tool-description">Soporte para YouTube, TikTok, Instagram, Twitter, Facebook</p>
+                        
                         <div class="input-group">
-                            <input type="url" id="video-url" class="input-field" placeholder="https://youtube.com/watch?v=..." autocomplete="off">
-                            <small class="url-preview" id="url-preview"></small>
+                            <input type="url" id="video-url" class="input-field" 
+                                   placeholder="https://youtube.com/watch?v=..." autocomplete="off">
+                            <div class="url-status" id="url-status"></div>
                         </div>
-                        <div class="quality-options hidden" id="quality-options">
-                            <label>Calidad:</label>
-                            <select id="video-quality" class="input-field">
-                                <option value="1080">1080p HD</option>
-                                <option value="720" selected>720p</option>
-                                <option value="480">480p</option>
-                                <option value="360">360p</option>
-                                <option value="audio">Solo Audio (MP3)</option>
+
+                        <div class="platform-info hidden" id="platform-info">
+                            <div class="platform-badge" id="platform-badge"></div>
+                            <div class="video-meta" id="video-meta"></div>
+                        </div>
+
+                        <div class="format-options">
+                            <label>🎯 Formato y Calidad:</label>
+                            <select id="video-format" class="input-field">
+                                <optgroup label="🎥 Video HD">
+                                    <option value="1080-mp4">1080p MP4 (HD Premium)</option>
+                                    <option value="720-mp4">720p MP4 (HD Balanced)</option>
+                                    <option value="480-mp4">480p MP4 (Standard)</option>
+                                </optgroup>
+                                <optgroup label="🎥 Video Web">
+                                    <option value="1080-webm">1080p WEBM (VP9)</option>
+                                    <option value="720-webm">720p WEBM (Optimized)</option>
+                                </optgroup>
+                                <optgroup label="🎵 Audio Premium">
+                                    <option value="mp3-320">MP3 320kbps (Studio Quality)</option>
+                                    <option value="mp3-256">MP3 256kbps (High Quality)</option>
+                                    <option value="flac">FLAC (Lossless Audio)</option>
+                                </optgroup>
+                                <optgroup label="🎵 Audio Estándar">
+                                    <option value="mp3-128">MP3 128kbps (Standard)</option>
+                                    <option value="m4a">M4A AAC (Apple Devices)</option>
+                                    <option value="ogg">OGG Vorbis (Web Audio)</option>
+                                </optgroup>
+                                <optgroup label="🖼️ Otros Formatos">
+                                    <option value="gif-hd">GIF HD 60fps</option>
+                                    <option value="gif-standard">GIF Standard</option>
+                                    <option value="thumbnail">Miniatura HD</option>
+                                </optgroup>
                             </select>
                         </div>
-                        <button class="btn tool-btn" data-tool="download-video" id="download-btn">⬇️ Descargar Video</button>
-                        <div class="progress-bar hidden" id="progress-bar">
-                            <div class="progress-fill" id="progress-fill"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <h3>🎵 Extractor de Audio</h3>
-                        <p>MP3, WAV, OGG - Alta calidad</p>
-                        <div class="input-group">
-                            <input type="url" class="input-field" placeholder="URL del video" id="audio-url">
-                        </div>
-                        <select class="input-field" id="audio-format">
-                            <option value="mp3">MP3 (Recomendado)</option>
-                            <option value="wav">WAV (Alta calidad)</option>
-                            <option value="ogg">OGG (Comprimido)</option>
-                        </select>
-                        <button class="btn tool-btn" data-tool="extract-audio">🎧 Extraer Audio</button>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <h3>🔄 Conversor a GIF</h3>
-                        <p>Con controles de tiempo y tamaño</p>
-                        <div class="input-group">
-                            <input type="url" class="input-field" placeholder="URL del video" id="gif-url">
-                        </div>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label>Inicio (seg):</label>
-                                <input type="number" class="input-field" value="0" min="0" id="gif-start">
+
+                        <div class="download-options">
+                            <label>⚡ Opciones de Descarga:</label>
+                            <div class="option-group">
+                                <input type="checkbox" id="include-metadata" checked>
+                                <label for="include-metadata">Incluir metadatos</label>
                             </div>
-                            <div class="input-group">
-                                <label>Duración (seg):</label>
-                                <input type="number" class="input-field" value="5" min="1" max="15" id="gif-duration">
+                            <div class="option-group">
+                                <input type="checkbox" id="high-speed" checked>
+                                <label for="high-speed">Modo alta velocidad</label>
                             </div>
                         </div>
-                        <button class="btn tool-btn" data-tool="convert-gif">🖼️ Crear GIF</button>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <h3>✂️ Recortador de Video</h3>
-                        <p>Recorta online sin programas</p>
-                        <div class="input-group">
-                            <input type="file" accept="video/*" class="input-field" id="trim-file">
-                        </div>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label>Inicio:</label>
-                                <input type="number" class="input-field" placeholder="Segundos" value="0">
+
+                        <button class="btn tool-btn download-main-btn" onclick="app.processVideoDownload()">
+                            🚀 Iniciar Descarga Profesional
+                        </button>
+
+                        <div class="progress-container hidden" id="progress-container">
+                            <div class="progress-info">
+                                <span id="progress-text">Preparando descarga...</span>
+                                <span id="progress-percent">0%</span>
                             </div>
-                            <div class="input-group">
-                                <label>Fin:</label>
-                                <input type="number" class="input-field" placeholder="Segundos" value="10">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="progress-details" id="progress-details"></div>
+                        </div>
+                    </div>
+
+                    <!-- EXTRACTOR DE AUDIO PROFESIONAL -->
+                    <div class="tool-card">
+                        <h3>🎵 Extractor de Audio Pro</h3>
+                        <p class="tool-description">Extrae audio en calidad de estudio</p>
+                        
+                        <div class="input-group">
+                            <input type="url" id="audio-url" class="input-field" placeholder="URL del video">
+                        </div>
+
+                        <div class="audio-formats">
+                            <label>🎚️ Formatos de Audio Disponibles:</label>
+                            <div class="format-buttons">
+                                <button class="format-btn active" data-format="mp3-320" data-quality="320kbps">MP3 320k</button>
+                                <button class="format-btn" data-format="flac" data-quality="Lossless">FLAC</button>
+                                <button class="format-btn" data-format="wav" data-quality="HD">WAV</button>
+                                <button class="format-btn" data-format="m4a" data-quality="256kbps">M4A</button>
+                                <button class="format-btn" data-format="ogg" data-quality="Vorbis">OGG</button>
                             </div>
                         </div>
-                        <button class="btn tool-btn" data-tool="trim-video">✂️ Recortar Video</button>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <h3>🔄 Convertidor de Formatos</h3>
-                        <p>MP4, WEBM, AVI, MOV</p>
-                        <div class="input-group">
-                            <input type="file" accept="video/*" class="input-field" id="convert-file">
+
+                        <div class="audio-options">
+                            <label>🎛️ Configuración de Audio:</label>
+                            <select class="input-field" id="audio-bitrate">
+                                <option value="320">320 kbps (Máxima Calidad)</option>
+                                <option value="256">256 kbps (Alta Calidad)</option>
+                                <option value="192">192 kbps (Calidad Estándar)</option>
+                                <option value="128">128 kbps (Tamaño Optimizado)</option>
+                            </select>
                         </div>
-                        <select class="input-field" id="target-format">
-                            <option value="mp4">MP4 (Universal)</option>
-                            <option value="webm">WEBM (Web)</option>
-                            <option value="avi">AVI (Compatible)</option>
-                            <option value="mov">MOV (Apple)</option>
-                        </select>
-                        <button class="btn tool-btn" data-tool="convert-format">🔄 Convertir</button>
+
+                        <button class="btn tool-btn" onclick="app.extractAudioPro()">
+                            🎧 Extraer Audio Profesional
+                        </button>
                     </div>
-                    
+
+                    <!-- CONVERSOR GIF AVANZADO -->
                     <div class="tool-card">
-                        <h3>📦 Compresor de Video</h3>
-                        <p>Reduce tamaño manteniendo calidad</p>
+                        <h3>🔄 Conversor GIF Avanzado</h3>
+                        <p class="tool-description">Crea GIFs de alta calidad con controles precisos</p>
+                        
                         <div class="input-group">
-                            <input type="file" accept="video/*" class="input-field" id="compress-file">
+                            <input type="url" id="gif-url" class="input-field" placeholder="URL del video">
                         </div>
-                        <select class="input-field" id="compression-level">
-                            <option value="high">Alta compresión (Tamaño pequeño)</option>
-                            <option value="medium" selected>Compresión media (Balanceado)</option>
-                            <option value="low">Baja compresión (Máxima calidad)</option>
-                        </select>
-                        <button class="btn tool-btn" data-tool="compress-video">📦 Comprimir</button>
+
+                        <div class="gif-controls">
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label>⏱️ Inicio (segundos):</label>
+                                    <input type="number" class="input-field" value="0" min="0" id="gif-start">
+                                </div>
+                                <div class="input-group">
+                                    <label>⏱️ Duración (segundos):</label>
+                                    <input type="number" class="input-field" value="5" min="1" max="15" id="gif-duration">
+                                </div>
+                            </div>
+                            
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label>📐 Resolución:</label>
+                                    <select class="input-field" id="gif-resolution">
+                                        <option value="1080">1080p (Full HD)</option>
+                                        <option value="720">720p (HD)</option>
+                                        <option value="480" selected>480p (Optimizado)</option>
+                                        <option value="360">360p (Rápido)</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>🎞️ FPS:</label>
+                                    <select class="input-field" id="gif-fps">
+                                        <option value="30">30 FPS (Suave)</option>
+                                        <option value="24" selected>24 FPS (Estándar)</option>
+                                        <option value="15">15 FPS (Ligero)</option>
+                                        <option value="10">10 FPS (Muy Ligero)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn tool-btn" onclick="app.convertToGifPro()">
+                            🖼️ Crear GIF Avanzado
+                        </button>
+                    </div>
+
+                    <!-- MÁS HERRAMIENTAS PROFESIONALES -->
+                    <div class="tool-card">
+                        <h3>✂️ Editor de Video Online</h3>
+                        <p>Recorta, une y edita videos directamente</p>
+                        <button class="btn tool-btn" onclick="app.showVideoEditor()">
+                            🎬 Abrir Editor
+                        </button>
+                    </div>
+
+                    <div class="tool-card">
+                        <h3>📊 Analizador de Video</h3>
+                        <p>Información técnica detallada de cualquier video</p>
+                        <button class="btn tool-btn" onclick="app.analyzeVideoTech()">
+                            🔍 Analizar Video
+                        </button>
+                    </div>
+
+                    <div class="tool-card">
+                        <h3>🔄 Convertidor Masivo</h3>
+                        <p>Convierte múltiples videos simultáneamente</p>
+                        <button class="btn tool-btn" onclick="app.showBatchConverter()">
+                            ⚡ Convertir Lote
+                        </button>
                     </div>
                 </div>
             </section>
         `;
     }
 
-    // 🎬 FUNCIONES REALES PARA VIDEO
-    analyzeVideoUrl(url) {
-        const preview = document.getElementById('url-preview');
-        const qualityOptions = document.getElementById('quality-options');
-        
+    // 🎯 BACKEND SIMULADO - FUNCIONES PROFESIONALES
+    async analyzeVideoUrl(url) {
+        const status = document.getElementById('url-status');
+        const platformInfo = document.getElementById('platform-info');
+        const platformBadge = document.getElementById('platform-badge');
+        const videoMeta = document.getElementById('video-meta');
+
         if (!url) {
-            preview.textContent = '';
-            qualityOptions.classList.add('hidden');
+            status.innerHTML = '';
+            platformInfo.classList.add('hidden');
             return;
         }
 
-        // Detectar plataforma
-        let platform = 'Desconocida';
-        let valid = false;
-
-        if (url.includes('youtube.com') || url.includes('youtu.be')) {
-            platform = 'YouTube';
-            valid = true;
-        } else if (url.includes('tiktok.com')) {
-            platform = 'TikTok';
-            valid = true;
-        } else if (url.includes('instagram.com')) {
-            platform = 'Instagram';
-            valid = true;
-        } else if (url.includes('twitter.com') || url.includes('x.com')) {
-            platform = 'Twitter/X';
-            valid = true;
-        } else if (url.includes('facebook.com')) {
-            platform = 'Facebook';
-            valid = true;
-        }
-
-        if (valid) {
-            preview.textContent = `✅ ${platform} detectado`;
-            preview.style.color = '#10b981';
-            qualityOptions.classList.remove('hidden');
-        } else {
-            preview.textContent = '❌ URL no compatible';
-            preview.style.color = '#ef4444';
-            qualityOptions.classList.add('hidden');
-        }
-    }
-
-    async handleToolClick(button) {
-        const tool = button.dataset.tool;
+        // Simular análisis profesional
+        status.innerHTML = '<div class="analyzing">🔍 Analizando URL...</div>';
         
-        switch(tool) {
-            case 'download-video':
-                await this.processVideoDownload();
-                break;
-            case 'extract-audio':
-                await this.extractAudioFromVideo();
-                break;
-            case 'convert-gif':
-                await this.convertVideoToGif();
-                break;
-            case 'trim-video':
-                await this.trimVideo();
-                break;
-            case 'convert-format':
-                await this.convertVideoFormat();
-                break;
-            case 'compress-video':
-                await this.compressVideo();
-                break;
-            default:
-                this.showOutput(`🛠️ Ejecutando: ${tool} - <em>Esta herramienta está en desarrollo</em>`);
+        await this.delay(800);
+
+        const analysis = await this.backend.analyzeVideo(url);
+        
+        if (analysis.valid) {
+            status.innerHTML = `<div class="success">✅ ${analysis.platform} detectado - Listo para descargar</div>`;
+            platformBadge.innerHTML = `
+                <span class="badge platform-${analysis.platform.toLowerCase()}">${analysis.platform}</span>
+                <span class="badge quality-${analysis.quality}">${analysis.quality}</span>
+            `;
+            videoMeta.innerHTML = `
+                <div class="meta-item"><strong>Duración:</strong> ${analysis.duration}</div>
+                <div class="meta-item"><strong>Tamaño:</strong> ${analysis.size}</div>
+                <div class="meta-item"><strong>Resolución:</strong> ${analysis.resolution}</div>
+            `;
+            platformInfo.classList.remove('hidden');
+        } else {
+            status.innerHTML = `<div class="error">❌ URL no compatible - Solo YouTube, TikTok, Instagram, Twitter, Facebook</div>`;
+            platformInfo.classList.add('hidden');
         }
     }
 
     async processVideoDownload() {
         const url = document.getElementById('video-url').value;
-        const quality = document.getElementById('video-quality').value;
+        const format = document.getElementById('video-format').value;
         
         if (!url) {
-            this.showOutput('❌ Por favor, introduce una URL de video válida');
+            this.showOutput('❌ Introduce una URL de video válida');
             return;
         }
 
-        this.showOutput('🔍 Analizando video...');
-        
-        // Simular análisis
+        this.showProgressContainer();
+        this.updateProgress(0, 'Inicializando backend...');
+
+        // Simular proceso completo de descarga
         await this.delay(1000);
-        
-        // Mostrar opciones de descarga
-        const isAudioOnly = quality === 'audio';
-        const format = isAudioOnly ? 'MP3' : 'MP4';
-        
-        this.showOutput(`
-            <div class="download-result">
-                <h4>✅ Video listo para descargar</h4>
-                <div class="video-info">
-                    <p><strong>Plataforma:</strong> ${this.detectPlatform(url)}</p>
-                    <p><strong>Calidad:</strong> ${isAudioOnly ? 'Audio MP3' : quality + 'p'}</p>
-                    <p><strong>Formato:</strong> ${format}</p>
-                    <p><strong>Tamaño estimado:</strong> ${this.estimateFileSize(quality)}</p>
-                </div>
-                <div class="download-actions">
-                    <button class="btn download-action-btn" onclick="app.simulateDownload('${format.toLowerCase()}', '${quality}')">
-                        ⬇️ Descargar ${format}
-                    </button>
-                    <button class="btn secondary-btn" onclick="app.showVideoInfo()">
-                        ℹ️ Ver información del video
-                    </button>
-                </div>
-            </div>
-        `);
+        this.updateProgress(20, 'Conectando con la plataforma...');
+
+        await this.delay(800);
+        this.updateProgress(40, 'Analizando formatos disponibles...');
+
+        await this.delay(1200);
+        this.updateProgress(60, 'Preparando stream de video...');
+
+        await this.delay(1000);
+        this.updateProgress(80, 'Procesando y codificando...');
+
+        await this.delay(1500);
+        this.updateProgress(95, 'Finalizando y generando archivo...');
+
+        await this.delay(500);
+        this.updateProgress(100, '✅ Descarga completada');
+
+        // Mostrar resultado profesional
+        const result = await this.backend.downloadVideo(url, format);
+        this.showDownloadResult(result);
     }
 
-    async extractAudioFromVideo() {
+    async extractAudioPro() {
         const url = document.getElementById('audio-url').value;
-        const format = document.getElementById('audio-format').value;
-        
+        const format = document.querySelector('.format-btn.active').dataset.format;
+        const bitrate = document.getElementById('audio-bitrate').value;
+
         if (!url) {
             this.showOutput('❌ Introduce una URL de video para extraer audio');
             return;
         }
 
-        this.showOutput('🎵 Extrayendo audio...');
-        await this.delay(1500);
-        
-        this.showOutput(`
-            <div class="download-result">
-                <h4>✅ Audio extraído correctamente</h4>
-                <div class="video-info">
-                    <p><strong>Formato:</strong> ${format.toUpperCase()}</p>
-                    <p><strong>Calidad:</strong> 320 kbps</p>
-                    <p><strong>Duración:</strong> 3:45 min</p>
-                    <p><strong>Tamaño:</strong> 8.7 MB</p>
-                </div>
-                <button class="btn download-action-btn" onclick="app.simulateDownload('${format}', 'audio')">
-                    ⬇️ Descargar ${format.toUpperCase()}
-                </button>
-            </div>
-        `);
+        this.showProgressContainer();
+        this.updateProgress(0, 'Iniciando extracción de audio...');
+
+        // Simular extracción profesional
+        const steps = [
+            {progress: 20, message: 'Decodificando stream de audio...'},
+            {progress: 40, message: 'Separando pistas de audio...'},
+            {progress: 60, message: 'Aplicando filtros de calidad...'},
+            {progress: 80, message: `Codificando en ${format.toUpperCase()} ${bitrate}kbps...`},
+            {progress: 95, message: 'Aplicando metadatos...'},
+            {progress: 100, message: '✅ Audio extraído exitosamente'}
+        ];
+
+        for (const step of steps) {
+            this.updateProgress(step.progress, step.message);
+            await this.delay(1000);
+        }
+
+        const result = await this.backend.extractAudio(url, format, bitrate);
+        this.showAudioResult(result);
     }
 
-    async convertVideoToGif() {
+    async convertToGifPro() {
         const url = document.getElementById('gif-url').value;
         const start = document.getElementById('gif-start').value;
         const duration = document.getElementById('gif-duration').value;
-        
+        const resolution = document.getElementById('gif-resolution').value;
+        const fps = document.getElementById('gif-fps').value;
+
         if (!url) {
             this.showOutput('❌ Introduce una URL de video para crear GIF');
             return;
         }
 
-        this.showProgressBar();
+        this.showProgressContainer();
         
-        // Simular conversión con progreso
-        for (let i = 0; i <= 100; i += 10) {
-            this.updateProgressBar(i);
-            await this.delay(200);
+        // Simular conversión GIF profesional
+        const steps = [
+            {progress: 10, message: 'Cargando segmento de video...'},
+            {progress: 25, message: `Extrayendo frames (${start}s - ${parseInt(start)+parseInt(duration)}s)...`},
+            {progress: 45, message: `Redimensionando a ${resolution}p...`},
+            {progress: 65, message: `Ajustando a ${fps} FPS...`},
+            {progress: 80, message: 'Optimizando paleta de colores...'},
+            {progress: 90, message: 'Comprimiendo GIF...'},
+            {progress: 95, message: 'Aplicando optimizaciones finales...'},
+            {progress: 100, message: '✅ GIF creado exitosamente'}
+        ];
+
+        for (const step of steps) {
+            this.updateProgress(step.progress, step.message);
+            await this.delay(800);
         }
+
+        const result = await this.backend.createGif(url, start, duration, resolution, fps);
+        this.showGifResult(result);
+    }
+
+    // 🎪 BACKEND SIMULADO - CLASE PROFESIONAL
+    handleFormatClick(button) {
+        document.querySelectorAll('.format-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        button.classList.add('active');
+    }
+
+    showProgressContainer() {
+        document.getElementById('progress-container').classList.remove('hidden');
+    }
+
+    hideProgressContainer() {
+        document.getElementById('progress-container').classList.add('hidden');
+    }
+
+    updateProgress(percent, message) {
+        document.getElementById('progress-fill').style.width = percent + '%';
+        document.getElementById('progress-text').textContent = message;
+        document.getElementById('progress-percent').textContent = percent + '%';
         
-        this.hideProgressBar();
-        
+        // Detalles técnicos simulados
+        const details = [
+            `Buffer: ${Math.round(percent * 2.5)}MB`,
+            `Velocidad: ${Math.random() * 5 + 2} MB/s`,
+            `Tiempo restante: ${Math.round((100 - percent) / 10)}s`
+        ];
+        document.getElementById('progress-details').innerHTML = details.join(' • ');
+    }
+
+    showDownloadResult(result) {
         this.showOutput(`
-            <div class="download-result">
-                <h4>✅ GIF creado exitosamente</h4>
-                <div class="gif-preview">
-                    <div style="background: #f0f0f0; padding: 20px; border-radius: 8px; text-align: center;">
-                        <div style="width: 200px; height: 150px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
-                            <span style="color: white; font-weight: bold;">GIF ANIMADO</span>
-                        </div>
+            <div class="download-result professional">
+                <h4>✅ Descarga Completada - Backend Simulado</h4>
+                <div class="result-grid">
+                    <div class="result-info">
+                        <h5>📊 Información del Archivo</h5>
+                        <div class="info-item"><strong>Plataforma:</strong> ${result.platform}</div>
+                        <div class="info-item"><strong>Formato:</strong> ${result.format}</div>
+                        <div class="info-item"><strong>Calidad:</strong> ${result.quality}</div>
+                        <div class="info-item"><strong>Tamaño:</strong> ${result.size}</div>
+                        <div class="info-item"><strong>Duración:</strong> ${result.duration}</div>
+                        <div class="info-item"><strong>Códec:</strong> ${result.codec}</div>
+                    </div>
+                    <div class="result-actions">
+                        <h5>📥 Acciones Disponibles</h5>
+                        <button class="btn download-action-btn" onclick="app.simulateRealDownload('${result.format}')">
+                            ⬇️ Descargar Archivo Real
+                        </button>
+                        <button class="btn secondary-btn" onclick="app.showTechnicalDetails()">
+                            🔧 Ver Detalles Técnicos
+                        </button>
+                        <button class="btn secondary-btn" onclick="app.convertToOtherFormat()">
+                            🔄 Convertir a Otro Formato
+                        </button>
                     </div>
                 </div>
-                <div class="video-info">
-                    <p><strong>Duración:</strong> ${duration} segundos</p>
-                    <p><strong>Desde:</strong> ${start}s</p>
-                    <p><strong>Tamaño:</strong> 2.3 MB</p>
-                    <p><strong>Dimensiones:</strong> 480x360 px</p>
-                </div>
-                <button class="btn download-action-btn" onclick="app.simulateDownload('gif', '480p')">
-                    ⬇️ Descargar GIF
-                </button>
-            </div>
-        `);
-    }
-
-    // 🛠️ FUNCIONES DE UTILIDAD
-    detectPlatform(url) {
-        if (url.includes('youtube')) return 'YouTube';
-        if (url.includes('tiktok')) return 'TikTok';
-        if (url.includes('instagram')) return 'Instagram';
-        if (url.includes('twitter') || url.includes('x.com')) return 'Twitter/X';
-        if (url.includes('facebook')) return 'Facebook';
-        return 'Desconocida';
-    }
-
-    estimateFileSize(quality) {
-        const sizes = {
-            '1080': '45-120 MB',
-            '720': '25-80 MB',
-            '480': '15-50 MB',
-            '360': '8-30 MB',
-            'audio': '3-10 MB'
-        };
-        return sizes[quality] || 'Tamaño variable';
-    }
-
-    simulateDownload(format, quality) {
-        this.showOutput(`📥 Descargando... (Simulación)`);
-        
-        setTimeout(() => {
-            const filename = `video_download.${format}`;
-            this.showOutput(`
-                <div class="download-complete">
-                    <h4>✅ Descarga completada</h4>
-                    <p><strong>Archivo:</strong> ${filename}</p>
-                    <p><strong>Calidad:</strong> ${quality}</p>
-                    <p>El archivo se ha descargado correctamente.</p>
-                    <button class="btn" onclick="app.loadTab('video')">
-                        🎬 Descargar otro video
-                    </button>
-                </div>
-            `);
-        }, 2000);
-    }
-
-    showProgressBar() {
-        const progressBar = document.getElementById('progress-bar');
-        if (progressBar) {
-            progressBar.classList.remove('hidden');
-        }
-    }
-
-    hideProgressBar() {
-        const progressBar = document.getElementById('progress-bar');
-        if (progressBar) {
-            progressBar.classList.add('hidden');
-        }
-    }
-
-    updateProgressBar(percent) {
-        const progressFill = document.getElementById('progress-fill');
-        if (progressFill) {
-            progressFill.style.width = percent + '%';
-        }
-    }
-
-    showVideoInfo() {
-        this.showOutput(`
-            <div class="video-info-detailed">
-                <h4>📊 Información del Video</h4>
-                <div class="info-grid">
-                    <div><strong>Título:</strong> Video demostración ToolMaster</div>
-                    <div><strong>Duración:</strong> 4:32 minutos</div>
-                    <div><strong>Resolución:</strong> 1920x1080</div>
-                    <div><strong>Formato:</strong> MP4/H.264</div>
-                    <div><strong>Tamaño:</strong> 84.5 MB</div>
-                    <div><strong>Codec:</strong> H.264, AAC</div>
+                <div class="simulation-note">
+                    <small>🔬 Esta es una simulación profesional del backend. En producción se conectaría a APIs reales.</small>
                 </div>
             </div>
         `);
+        this.hideProgressContainer();
     }
 
-    // 🔧 FUNCIONES SIMULADAS (placeholder)
-    async trimVideo() {
-        this.showOutput('✂️ Recortando video... (Función en desarrollo)');
-        await this.delay(2000);
-        this.showOutput('✅ Video recortado correctamente');
+    simulateRealDownload(format) {
+        this.showOutput(`📥 Iniciando descarga real de archivo ${format}... (Simulación)`);
+        // En producción real, aquí iría la lógica de descarga
     }
 
-    async convertVideoFormat() {
-        this.showOutput('🔄 Convirtiendo formato... (Función en desarrollo)');
-        await this.delay(2000);
-        this.showOutput('✅ Video convertido correctamente');
-    }
-
-    async compressVideo() {
-        this.showOutput('📦 Comprimiendo video... (Función en desarrollo)');
-        await this.delay(2000);
-        this.showOutput('✅ Video comprimido correctamente');
-    }
-
+    // ⚡ FUNCIONES DE UTILIDAD
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -478,7 +447,6 @@ class ToolMasterApp {
     showOutput(content) {
         const outputPanel = document.getElementById('output-panel');
         const outputContent = document.getElementById('output-content');
-        
         outputContent.innerHTML = content;
         outputPanel.classList.remove('hidden');
     }
@@ -495,20 +463,167 @@ class ToolMasterApp {
     hideLoadingBar() {
         const loadingBar = document.getElementById('loadingBar');
         loadingBar.style.transform = 'scaleX(1)';
-        setTimeout(() => {
-            loadingBar.style.transform = 'scaleX(0)';
-        }, 300);
+        setTimeout(() => loadingBar.style.transform = 'scaleX(0)', 300);
     }
 
-    // ... (las otras funciones getQRToolsHTML, getTextToolsHTML, etc. se mantienen igual)
-    getQRToolsHTML() { /* mismo código anterior */ }
-    getTextToolsHTML() { /* mismo código anterior */ }
-    getImageToolsHTML() { /* mismo código anterior */ }
-    getUrlToolsHTML() { /* mismo código anterior */ }
-    getQuickToolsHTML() { /* mismo código anterior */ }
+    // Las otras categorías (mantener igual por ahora)
+    getQRToolsHTML() { /* mismo código */ }
+    getTextToolsHTML() { /* mismo código */ }
+    getImageToolsHTML() { /* mismo código */ }
+    getUrlToolsHTML() { /* mismo código */ }
+    getQuickToolsHTML() { /* mismo código */ }
+    handleToolClick(button) { /* para otras herramientas */ }
 }
 
-// Inicializar la aplicación
+// 🏗️ BACKEND SIMULADO PROFESIONAL
+class MockBackend {
+    constructor() {
+        this.supportedPlatforms = ['youtube', 'tiktok', 'instagram', 'twitter', 'facebook'];
+    }
+
+    async analyzeVideo(url) {
+        await this.simulateNetworkDelay();
+        
+        const platform = this.detectPlatform(url);
+        const valid = this.supportedPlatforms.includes(platform);
+        
+        if (!valid) {
+            return { valid: false };
+        }
+
+        return {
+            valid: true,
+            platform: platform.charAt(0).toUpperCase() + platform.slice(1),
+            quality: 'HD',
+            duration: this.randomDuration(),
+            size: this.randomSize(),
+            resolution: '1920x1080',
+            title: 'Video Demo - ToolMaster Pro'
+        };
+    }
+
+    async downloadVideo(url, format) {
+        await this.simulateNetworkDelay(2000);
+        
+        return {
+            platform: this.detectPlatform(url).toUpperCase(),
+            format: this.getFormatName(format),
+            quality: this.getQuality(format),
+            size: this.randomSize(),
+            duration: this.randomDuration(),
+            codec: this.getCodec(format),
+            downloadUrl: '#simulated-download'
+        };
+    }
+
+    async extractAudio(url, format, bitrate) {
+        await this.simulateNetworkDelay(1500);
+        
+        return {
+            format: format.toUpperCase(),
+            bitrate: `${bitrate} kbps`,
+            size: this.randomAudioSize(),
+            duration: this.randomDuration(),
+            quality: this.getAudioQuality(bitrate),
+            sampleRate: '44.1 kHz',
+            channels: 'Stereo'
+        };
+    }
+
+    async createGif(url, start, duration, resolution, fps) {
+        await this.simulateNetworkDelay(1800);
+        
+        return {
+            resolution: `${resolution}p`,
+            fps: fps,
+            duration: `${duration}s`,
+            size: this.randomGifSize(),
+            quality: 'Optimized',
+            frames: parseInt(duration) * parseInt(fps),
+            colors: '256 colors'
+        };
+    }
+
+    // 🎪 MÉTODOS DE SIMULACIÓN PROFESIONAL
+    detectPlatform(url) {
+        if (url.includes('youtube')) return 'youtube';
+        if (url.includes('tiktok')) return 'tiktok';
+        if (url.includes('instagram')) return 'instagram';
+        if (url.includes('twitter') || url.includes('x.com')) return 'twitter';
+        if (url.includes('facebook')) return 'facebook';
+        return 'unknown';
+    }
+
+    getFormatName(format) {
+        const formats = {
+            '1080-mp4': 'MP4 1080p',
+            '720-mp4': 'MP4 720p', 
+            '480-mp4': 'MP4 480p',
+            '1080-webm': 'WEBM 1080p',
+            '720-webm': 'WEBM 720p',
+            'mp3-320': 'MP3 320kbps',
+            'mp3-256': 'MP3 256kbps',
+            'flac': 'FLAC Lossless',
+            'gif-hd': 'GIF HD',
+            'gif-standard': 'GIF Standard'
+        };
+        return formats[format] || format;
+    }
+
+    getQuality(format) {
+        if (format.includes('1080')) return 'Ultra HD';
+        if (format.includes('720')) return 'HD';
+        if (format.includes('480')) return 'Standard';
+        if (format.includes('320')) return 'Studio Quality';
+        return 'High Quality';
+    }
+
+    getCodec(format) {
+        if (format.includes('mp4')) return 'H.264 + AAC';
+        if (format.includes('webm')) return 'VP9 + Opus';
+        if (format.includes('mp3')) return 'MPEG Audio Layer III';
+        if (format.includes('flac')) return 'FLAC Lossless';
+        return 'Unknown';
+    }
+
+    getAudioQuality(bitrate) {
+        const qualities = {
+            '320': 'Studio Master',
+            '256': 'High Fidelity', 
+            '192': 'Premium',
+            '128': 'Standard'
+        };
+        return qualities[bitrate] || 'High Quality';
+    }
+
+    randomDuration() {
+        const durations = ['2:15', '3:45', '4:20', '5:30', '7:15', '10:45'];
+        return durations[Math.floor(Math.random() * durations.length)];
+    }
+
+    randomSize() {
+        const sizes = ['45.7 MB', '82.3 MB', '125.8 MB', '64.2 MB', '98.5 MB'];
+        return sizes[Math.floor(Math.random() * sizes.length)];
+    }
+
+    randomAudioSize() {
+        const sizes = ['8.7 MB', '12.3 MB', '15.8 MB', '6.2 MB', '22.1 MB'];
+        return sizes[Math.floor(Math.random() * sizes.length)];
+    }
+
+    randomGifSize() {
+        const sizes = ['2.3 MB', '4.7 MB', '8.1 MB', '1.8 MB', '5.5 MB'];
+        return sizes[Math.floor(Math.random() * sizes.length)];
+    }
+
+    async simulateNetworkDelay(max = 1000) {
+        await new Promise(resolve => 
+            setTimeout(resolve, Math.random() * max + 500)
+        );
+    }
+}
+
+// 🚀 INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new ToolMasterApp();
 });
