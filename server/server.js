@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static('C:/Users/saido/Desktop/free-toolkit.github.io-main/public'));
 
 // Usar rutas
 app.use('/api/video', videoRoutes);
