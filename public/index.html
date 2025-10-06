@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolMaster - 30+ Herramientas Gratis</title>
+    <meta name="description" content="ToolMaster: Descarga videos, crea QR, procesa texto, comprime imágenes y más. 30+ herramientas profesionales gratuitas.">
+    
+    <!-- Preload crítico -->
+    <link rel="preload" href="styles.css" as="style">
+    
+    <!-- CSS crítico inline para carga rápida -->
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --dark-bg: #0f172a;
+            --text-primary: #f8fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            z-index: 9999;
+        }
+        
+        .main-header {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        /* Loading inicial */
+        .initial-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+    
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+</head>
+<body>
+    <!-- Loading bar animada -->
+    <div class="loading-bar" id="loadingBar"></div>
+    
+    <!-- Loading inicial -->
+    <div class="initial-loading" id="initialLoading">
+        <div class="loading-content">
+            <h2>ToolMaster</h2>
+            <p>Cargando herramientas profesionales...</p>
+        </div>
+    </div>
 
+    <!-- Header principal -->
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="logo">ToolMaster</h1>
+            <nav class="main-nav">
+                <button class="nav-btn active" data-tab="video">🎬 Video</button>
+                <button class="nav-btn" data-tab="qr">🔳 QR</button>
+                <button class="nav-btn" data-tab="text">📝 Texto</button>
+                <button class="nav-btn" data-tab="images">🖼️ Imágenes</button>
+                <button class="nav-btn" data-tab="urls">🔗 URLs</button>
+                <button class="nav-btn" data-tab="quick">⚡ Rápidas</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="tool-container">
+        <div id="content-area" class="content-area">
+            <!-- El contenido se carga dinámicamente aquí via JavaScript -->
+            <div class="welcome-message">
+                <h2>🚀 Bienvenido a ToolMaster</h2>
+                <p>Selecciona una categoría para comenzar a usar las herramientas</p>
+                <div class="category-stats">
+                    <div class="stat-card">
+                        <h3>30+</h3>
+                        <p>Herramientas</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>6</h3>
+                        <p>Categorías</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>100%</h3>
+                        <p>Gratis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Panel de resultados/output -->
+    <div id="output-panel" class="output-panel hidden">
+        <div class="output-header">
+            <h3>📊 Resultado</h3>
+            <button id="close-output" class="close-btn" aria-label="Cerrar panel">×</button>
+        </div>
+        <div id="output-content" class="output-content">
+            <!-- Los resultados se muestran aquí -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 ToolMaster. Todas las herramientas son 100% gratuitas.</p>
+            <p class="footer-note">Backend simulado profesional - Para uso demostrativo</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="app.js" defer></script>
+    
+    <!-- Script de inicialización -->
+    <script>
+        // Ocultar loading inicial cuando todo esté listo
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('initialLoading').classList.add('hidden');
+            }, 1000);
+        });
+        
+        // Mostrar loading si la página tarda en cargar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('initialLoading').classList.add('hidden');
+            });
+        } else {
+            document.getElementById('initialLoading').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
